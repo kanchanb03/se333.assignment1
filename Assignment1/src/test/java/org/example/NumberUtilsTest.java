@@ -4,7 +4,10 @@ package org.example;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.example.NumberUtils.add;
 import static org.junit.jupiter.api.Assertions.*;
@@ -138,6 +141,33 @@ class NumberUtilsTest {
         LinkedList<Integer> result = (LinkedList<Integer>) add(initial, null);
         assertNull(result);
     }
+    @Test
+    @Tag("MutationEdgeCases")
+    public void testEdgeCasesForMutation() {
+        List<Integer> left = new ArrayList<>(List.of(9, 9));
+        List<Integer> right = new ArrayList<>(List.of(1));
+        List<Integer> actual = NumberUtils.add(left, right);
+        assertEquals(List.of(1, 0, 0), actual);
+
+        left = new ArrayList<>(List.of(1));
+        right = new ArrayList<>(List.of(8));
+        // 1 + 8 = 9 => final => [9], no leftover carry
+        actual = NumberUtils.add(left, right);
+        assertEquals(List.of(9), actual);
+
+        left = new ArrayList<>(List.of(5, 8));
+        right = new ArrayList<>(List.of(7, 8));
+        actual = NumberUtils.add(left, right);
+        assertEquals(List.of(1, 3, 6), actual);
+
+
+        left = new ArrayList<>(List.of(0, 0, 0));
+        right= new ArrayList<>(List.of(0, 0));
+
+        actual= NumberUtils.add(left, right);
+        assertEquals(List.of(0), actual);
+    }
+
 
 
 
